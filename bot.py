@@ -33,11 +33,10 @@ async def hello(ctx):
     end = time.time()
     await ctx.send(f'Took {end-start} seconds')
 
-async def attemptSearch(site, name):
-    possible = [f'{site}/{name}-members-profile', f'{site}/{name}-profile']
+async def attemptSearch(site, name, url_tuple):
     img_text = []
     attempts = 0
-    for link in possible:
+    for link in url_tuple:
         try:
             search = requests.get(link)
             only_p = SoupStrainer('p')
@@ -60,8 +59,9 @@ async def prof(ctx, *, arg):
     tmp = arg.split(' ')
     name = '-'.join(tmp)
     site = "https://kprofiles.com"
+    url_tuple = (f'{site}/{name}-members-profile', f'{site}/{name}-profile')
 
-    search = await attemptSearch(site, name)           
+    search = await attemptSearch(site, name, url_tuple)           
 
     if search == False:
         await ctx.send('없어요 ㅠㅠ')
@@ -73,6 +73,10 @@ async def prof(ctx, *, arg):
         await ctx.send(embed=embedMsg)
         end = time.time()
         await ctx.send(f'Took {end - start} seconds')
+
+@client.command()
+async def test(ctx):
+    await ctx.send(ctx.author.mention)
 
 @client.command()
 async def pic(ctx, *, arg):
