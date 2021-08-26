@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup, SoupStrainer
 import requests
 import random
 import re
-import time
 
 with open('./token.txt') as txt:
     token = txt.readline()
@@ -28,10 +27,7 @@ async def on_ready():
 
 @client.command()
 async def hello(ctx):
-    start = time.time()
     await ctx.send("https://youtu.be/lNvBbh5jDcA")
-    end = time.time()
-    await ctx.send(f'Took {end-start} seconds')
 
 async def attemptSearch(site, name, url_tuple):
     img_text = []
@@ -55,7 +51,6 @@ async def attemptSearch(site, name, url_tuple):
 
 @client.command()
 async def prof(ctx, *, arg):
-    start = time.time()
     tmp = arg.split(' ')
     name = '-'.join(tmp)
     site = "https://kprofiles.com"
@@ -68,11 +63,7 @@ async def prof(ctx, *, arg):
     else:
         embedMsg = discord.Embed(description=search[1], color=0x2ecc71)
         embedMsg.set_image(url=search[0])
-        # await ctx.send(search[0])
-        # await ctx.send(search[1])
         await ctx.send(embed=embedMsg)
-        end = time.time()
-        await ctx.send(f'Took {end - start} seconds')
 
 @client.command()
 async def test(ctx):
