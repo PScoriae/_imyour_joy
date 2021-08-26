@@ -3,51 +3,25 @@ import requests
 import random
 import re
 
-# website doesn't parse requests for a page above 100.
-# thus, this function checks if the actual number of pages is > 100
-# if it is, then the range is limited to 100, else it is maintained.
-def getOfficialRange(noOfPages):
-    if noOfPages > 100:
-        return 100
-    else:
-        return noOfPages
+def wiki():
+    html = requests.get('https://kpop.fandom.com/wiki/IZ*ONE')
+    only_mw_parser_output = SoupStrainer('div', class_='mw-parser-output')
+    soup = BeautifulSoup(html.text, 'lxml', parse_only=only_mw_parser_output)
 
-# def profile(arg):
-#     tmp = arg.split(' ')
-#     name = '-'.join(tmp)
-#     site = "https://kprofiles.com"
-#     searchString = f'{site}/{name}-members-profile'
-#     search = requests.get(searchString)
-#     only_p = SoupStrainer('p')
-#     soup = BeautifulSoup(search.text, 'lxml', parse_only=only_p)
-#     first = soup.find('p')
-#     img = first.find('img').get('src')
-#     text = first.get_text().split('\n')[2]
-#     print(img)
-#     print(text)
-
-def profile(ctx, *, arg):
-    tmp = arg.split(' ')
-    name = '-'.join(tmp)
-    site = "https://kprofiles.com"
+    text = soup.find('aside', class_='portable-infobox pi-background pi-border-color pi-theme-artist pi-layout-default')
+    info = text.next_sibling.next_sibling
+    list = []
+    while True:
+        if info.name is not None:
+            modified = info.get_text()
+            list.append(modified)
+        else:
+            list.append(info)
+        info = info.next_sibling
+        if info is None:
+            break
     
-    def attemptSearch(site, name):
-        possible = [f'{site}/{name}-members-profile', f'{site}/{name}-profile']
-        for link in possible:
-            try:
-                return requests.get(link)
-            except:
-                return False
+    info = ''.join(list).replace('\n', '')
+    print(info)
 
-    search = attemptSearch(name, site)           
-
-    if search == False:
-        await ctx.send('없어요 ㅠㅠ')
-    else:
-        only_p = SoupStrainer('p')
-        soup = BeautifulSoup(search.text, 'lxml', parse_only=only_p)
-        first = soup.find('p')
-        img = first.find('img').get('src')
-        text = first.get_text().split('\n')[-1]
-        await ctx.send(img)
-        await ctx.send(text)
+wiki()
