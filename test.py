@@ -24,4 +24,18 @@ def wiki():
     info = ''.join(list).replace('\n', '')
     print(info)
 
+    img = text.find('a', class_='image image-thumbnail').get('href')
+    print(img)
+
+    # data = text.find_all('section', class_='pi-item pi-group pi-border-color pi-collapse pi-collapse-open')
+    # for item in data:
+    #     if item.find('h2', class_='pi-item pi-header pi-secondary-font pi-item-spacing pi-secondary-background').get_text():
+    #         ab = item.find('h2', class_='pi-item pi-header pi-secondary-font pi-item-spacing pi-secondary-background').get_text()
+    #         print(ab)
+    #     elif item.find('caption', class_='pi-header pi-secondary-font pi-secondary-background pi-item-spacing'):
+    #         bc = item.find('caption', class_='pi-header pi-secondary-font pi-secondary-background pi-item-spacing')
+    #         print(bc)
+
+    # data1 = text.find_all('h2', class_='pi-item pi-header pi-secondary-font pi-item-spacing pi-secondary-background')
+    # print(data1)
 wiki()
