@@ -70,6 +70,10 @@ async def test(ctx):
     await ctx.send(ctx.author.mention)
 
 @client.command()
+async def git(ctx):
+    await ctx.send('https://github.com/PScoriae/_imyour_joy')
+
+@client.command()
 async def pic(ctx, *, arg):
     site = "https://kpop.asiachan.com"
     searchString = f'{site}/{arg}?s=id' # searches for person sorted by recent
