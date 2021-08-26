@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup, SoupStrainer
 import requests
 import random
 import re
+import time
 
 with open('./token.txt') as txt:
     token = txt.readline()
@@ -27,42 +28,51 @@ async def on_ready():
 
 @client.command()
 async def hello(ctx):
+    start = time.time()
     await ctx.send("https://youtu.be/lNvBbh5jDcA")
+    end = time.time()
+    await ctx.send(f'Took {end-start} seconds')
+
+async def attemptSearch(site, name):
+    possible = [f'{site}/{name}-members-profile', f'{site}/{name}-profile']
+    img_text = []
+    attempts = 0
+    for link in possible:
+        try:
+            search = requests.get(link)
+            only_p = SoupStrainer('p')
+            soup = BeautifulSoup(search.text, 'lxml', parse_only=only_p)
+            first = soup.find('p')
+            img = first.find('img').get('src')
+            text = first.get_text().split('\n')[-1]
+            img_text.append(img)
+            img_text.append(text)
+            return img_text
+        except AttributeError:
+            attempts += 1
+            if attempts == 2:
+                return False
+            continue
 
 @client.command()
 async def prof(ctx, *, arg):
+    start = time.time()
     tmp = arg.split(' ')
     name = '-'.join(tmp)
     site = "https://kprofiles.com"
-    
-    def attemptSearch(site, name):
-        possible = [f'{site}/{name}-members-profile', f'{site}/{name}-profile']
-        img_text = []
-        attempts = 0
-        for link in possible:
-            try:
-                search = requests.get(link)
-                only_p = SoupStrainer('p')
-                soup = BeautifulSoup(search.text, 'lxml', parse_only=only_p)
-                first = soup.find('p')
-                img = first.find('img').get('src')
-                text = first.get_text().split('\n')[-1]
-                img_text.append(img)
-                img_text.append(text)
-                return img_text
-            except AttributeError:
-                attempts += 1
-                if attempts == 2:
-                    return False
-                continue
 
-    search = attemptSearch(site, name)           
+    search = await attemptSearch(site, name)           
 
     if search == False:
         await ctx.send('없어요 ㅠㅠ')
     else:
-        await ctx.send(search[0])
-        await ctx.send(search[1])
+        embedMsg = discord.Embed(description=search[1], color=0x2ecc71)
+        embedMsg.set_image(url=search[0])
+        # await ctx.send(search[0])
+        # await ctx.send(search[1])
+        await ctx.send(embed=embedMsg)
+        end = time.time()
+        await ctx.send(f'Took {end - start} seconds')
 
 @client.command()
 async def pic(ctx, *, arg):
