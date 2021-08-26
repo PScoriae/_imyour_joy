@@ -5,7 +5,7 @@ import requests
 import random
 import re
 
-with open('token.txt') as txt:
+with open('./token.txt') as txt:
     token = txt.readline()
     
 client = commands.Bot(command_prefix='j')
