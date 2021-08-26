@@ -5,6 +5,9 @@ import requests
 import random
 import re
 
+with open('token.txt') as txt:
+    token = txt.readline()
+    
 client = commands.Bot(command_prefix='j')
 
 # website doesn't parse requests for a page above 100.
@@ -94,4 +97,4 @@ async def pic(ctx, *, arg):
     except:
         await ctx.send("없어요 ㅠㅠ")
 
-client.run('')
+client.run(token)
