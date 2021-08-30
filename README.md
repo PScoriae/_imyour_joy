@@ -1,4 +1,4 @@
-#  This project has been deprecated in favor of the Node.js rewrite.
+#  This project has been deprecated in favor of the [Node.js rewrite](https://github.com/PScoriae/imyour_joy).
 The discord.py implementation of this project has been deprecated since discord.py has ceased development. Discord.py's lead developer's announcement regarding the situation can be found [here](https://gist.github.com/Rapptz/4a2f62751b9600a31a0d3c78100287f1).
 
 The project will continue but will instead be using Node.js through the discord.js library. [Hikari](https://github.com/hikari-py/hikari), another Python library for the Discord API, was considered, however I have decided to rewrite the project in with discord.js due to its speed, documentation and my plans for future projects.
