@@ -31,21 +31,29 @@ The suggested method of deployment is through the use of Docker containers. Furt
 
 ## Bot Token
 
-If you have a look at the .gitignore file, you'll notice that there's a file named `token.txt` that's been excluded. Obviously, this has been excluded from the repository it would compromise my bot's token.
+If you have a look at the `.gitignore` file, you'll notice that `token.txt` has been excluded so that my bot's token isn't publicized.
 
 Hence, the first step is to create a file called `token.txt` in the root directory. Then, simply paste your bot's token in the file.
 
 If you choose to deploy this bot using Docker, that's all the setup that's needed! `docker build` will take care of the rest.
 
-## Running the Bot Outside of Docker
-
-However, if you wish to run `bot.py` outside of Docker, then you'll need to install some libraries with `pip`:
-
-    $ pip install discord.py beautifulsoup4 requests lxml
+However, if you wish to run the bot outside of Docker, see [Running the Bot Outside of Docker](##running-the-bot-outside-of-docker)
 
 # Deployment
 
 These instructions and the included script are meant for *nix based systems. However, the deployment process can be replicated on Windows sytems provided you understand the intents behind these actions and adjust them accordingly.
+
+## Running the Bot Outside of Docker
+
+You'll need to install some libraries with `pip`:
+
+    $ pip install discord.py beautifulsoup4 requests lxml
+
+Then, simply run the `bot.py`
+
+    $ python bot.py
+
+That's all you need to do. The instructions below are for deploying it to a server hosting a private registry.
 
 ## Setting Up A Private Registry
 
@@ -61,7 +69,7 @@ These instructions are largely based on the [official guide](https://docs.docker
 
 ## Creating and Pushing the Docker Image
 
-Special thanks to botjtib for providing a (solution)[https://stackoverflow.com/questions/38695515/can-not-pull-push-images-after-update-docker-to-1-12] for pushing to a private regisry.
+Special thanks to botjtib for providing a [solution](https://stackoverflow.com/questions/38695515/can-not-pull-push-images-after-update-docker-to-1-12) for pushing to a private regisry.
 
 1. On the computer that will push the Docker image, ensure your server's IP:port is added as an insecure registry to `/etc/docker/daemon.json`. Its contents should include a line like this:
 
