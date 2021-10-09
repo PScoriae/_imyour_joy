@@ -33,7 +33,7 @@ The suggested method of deployment is through the use of Docker containers. Furt
 
 In your desired location, simply run the following in the terminal:
 
-        $ git clone https://github.com/PScoriae/imyour_joy_py
+    $ git clone https://github.com/PScoriae/imyour_joy_py
 
 ## Configuration
 
